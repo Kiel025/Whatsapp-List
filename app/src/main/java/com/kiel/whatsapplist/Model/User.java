@@ -1,9 +1,11 @@
-package com.kiel.whatsapplist.model;
+package com.kiel.whatsapplist.Model;
 
 public class User {
 
     private int pic;
     private String name;
+    private String message;
+
 
     public User(int pic, String name, String message) {
         this.pic = pic;
@@ -34,7 +36,5 @@ public class User {
     public void setMessage(String message) {
         this.message = message;
     }
-
-    private String message;
 
 }

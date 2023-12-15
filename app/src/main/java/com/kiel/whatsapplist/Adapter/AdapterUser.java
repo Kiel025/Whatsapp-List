@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kiel.whatsapplist.R;
-import com.kiel.whatsapplist.model.User;
+import com.kiel.whatsapplist.Model.User;
 
 import java.util.List;
 

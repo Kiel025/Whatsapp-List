@@ -1,13 +1,18 @@
 package com.kiel.whatsapplist;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.os.Bundle;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.kiel.whatsapplist.Adapter.AdapterUser;
+import com.kiel.whatsapplist.RecyclerItemClickListener.RecyclerItemClickListener;
 import com.kiel.whatsapplist.databinding.ActivityMainBinding;
-import com.kiel.whatsapplist.model.User;
+import com.kiel.whatsapplist.Model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private List<User> userList = new ArrayList<>();
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +29,38 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.recyclerUsers.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        binding.recyclerUsers.setHasFixedSize(true);
+        recyclerView = binding.recyclerUsers;
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setHasFixedSize(true);
         AdapterUser adapterUser = new AdapterUser(userList);
-        binding.recyclerUsers.setAdapter(adapterUser);
+        recyclerView.setAdapter(adapterUser);
 
         createUsers();
+
+        //  Click Event
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(
+                getApplicationContext(),
+                recyclerView,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        User user = userList.get(position);
+                        Toast.makeText(MainActivity.this, "Usuário: " + user.getName(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                        User user = userList.get(position);
+                        Toast.makeText(MainActivity.this, "Usuário click longo: " + user.getName(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                }
+        ));
     }
 
     public void createUsers() {
